@@ -12,7 +12,7 @@ https://github.com/der-lolo/aquarea
 
 The controller will read the values documented so far from the heatpump and publish these to
 a MQTT Server running somewhere in the network (in my case, it's an openhab installation)
-I am using the homie convention:
+I am using a homie library for esp8266:
 
 https://github.com/homieiot/homie-esp8266
 
@@ -23,11 +23,14 @@ Use at own risk. I cannot provide PCBs. These are simple and can be manually sol
 
 I occansionally get crashes, and the timing on the serial bus is merely a guess. I do not have a logic analyzer.
 
-To configure the device, see the home-docs, ie. https://homieiot.github.io/homie-esp8266/docs/stable/configuration/json-configuration-file/
+To get started, install the homie-esp8266 libs in your Arduino environment
+and follow the docs, ie. https://homieiot.github.io/homie-esp8266/docs/stable/
+
+The device can be configured like so: https://homieiot.github.io/homie-esp8266/docs/stable/configuration/json-configuration-file/
+
 There is a JSON file which contains passwords, hostnames,... in "../src/data/homie/config.json". This file can be uploaded to the controller using this tool: https://github.com/esp8266/arduino-esp8266fs-plugin
 
+The code is plain C, but because asychronous libs (homie, wifi and mqtt) are involved, it's not always straight forward.
 
-
-
-
-
+I used a chaepo nodeMcu board (see pic) and installed the following board manager in arduino GUI:
+ESP8266 Boards -> "NodeMCU 1.0 (ESP 12E Module)"
