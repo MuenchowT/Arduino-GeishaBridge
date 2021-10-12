@@ -3,20 +3,20 @@
   "device_id": "GeishaBridgeEdel42",
   "device_stats_interval": 60,
   "wifi": {
-    "ssid": "Edel42",
-    "password": "4904Edel42Muc",
-    "ip": "192.168.0.192",
+    "ssid": "useYourSSID",
+    "password": "yourPassword",
+    "ip": "192.168.0.0",
     "mask": "255.255.255.0",
     "gw": "192.168.0.1",
     "dns1": "192.168.0.1"
   },
   "mqtt": {
-    "host": "Edel42",
+    "host": "MQTT_Host",
     "port": 1883,
     "base_topic": "homie/",
     "auth": true,
-    "username": "openhab",
-    "password": "4904Edel42Muc",
+    "username": "mqtt_username",
+    "password": "mqtt_password",
     "ssl": false
   },
   "ota": {
