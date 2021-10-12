@@ -1,6 +1,6 @@
 {
-  "name": "Geisha Bridge Edel42",
-  "device_id": "GeishaBridgeEdel42",
+  "name": "Geisha Bridge YourName",
+  "device_id": "GeishaBridgeYourName",
   "device_stats_interval": 60,
   "wifi": {
     "ssid": "useYourSSID",
