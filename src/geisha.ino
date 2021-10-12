@@ -135,7 +135,7 @@ void loopHandler() {
  */
 bool globalInputHandler(const HomieNode& node, const HomieRange& range, const String& property, const String& value) {
 
-Homie.getLogger() << "global input handler " << property ;
+Homie.getLogger() << "global input handler for " << property << endl;;
 uint8_t new_mode = 0;
 int tmp ;
 int p_register;
@@ -145,15 +145,12 @@ p_register = gs->pana_register;
 
 if (gs->pana_register == 0) {  Homie.getLogger() << "Parameter " << property << "not found " << endl;  return false; }
 
-//if(property == "Power" || property == "Betriebsart" || property == "Eco" )   return false;
-
     switch (gs->pana_register) {
       case 1:  // Betriebsart
         new_mode = getModeBitsFromString(value);        // mode value in bits 2--8 | 
         // original OFF/ON bit from parameter 144 "appended" to new value
         new_mode |= ( geishaMap[144]->pana_value & 0x01 ); 
 #ifdef DEBUG
-        if (DebugLevel >= 1) 
             Homie.getLogger() << " register, " << p_register << " new mode from mqtt: " << new_mode << " is set to " << value << endl;
 #endif
          p_register = 144;
@@ -161,8 +158,11 @@ if (gs->pana_register == 0) {  Homie.getLogger() << "Parameter " << property << 
       case 2:  // Power
         if (value != "ON" && value != "OFF") 
           return false;
-        // strip the Power bit (LSB) off the mode-Number and add the new power bit
+// strip the Power bit (LSB) off the mode-Number and add the new power bit
         new_mode = (geishaMap[144]->pana_value & 0xFE) | (value == "ON" ? 1 : 0 );  
+#ifdef DEBUG
+            Homie.getLogger() << " register, " << p_register << " new power bit  from mqtt: " << new_mode << " is set to " << value << endl;
+#endif
          p_register = 144;
         break;
       case 3:  // Eco
@@ -181,7 +181,6 @@ if (gs->pana_register == 0) {  Homie.getLogger() << "Parameter " << property << 
         new_mode = strtol(const_cast<char*>(value.c_str()), NULL, 0);
      }
 #ifdef DEBUG 
-  if (DebugLevel >= 1) 
       Homie.getLogger() << gs->pana_name << " is set to " << value << " -> " << new_mode << endl;
 #endif
   sendNewValueToGeisha(p_register, new_mode);

@@ -106,30 +106,31 @@ void heatpump_loop() {
           digitalWrite(rtsPin, HIGH );
           delay(25);    
 #ifdef DEBUG_TX
-          if (DebugLevel >= 1) Homie.getLogger() << ".. 170 " << (millis() - lastReadAt)  ;
+          Homie.getLogger() << ".. 170 " << (millis() - lastReadAt) << "ms "  ;
 #endif
           if (!swSerHeatPump.write(source)) { Homie.getLogger() << " failed  "; digitalWrite(rtsPin, LOW); return; }
           delay(5);    
 #ifdef DEBUG_TX
-          if (DebugLevel >= 1) Homie.getLogger() << "... register " << (millis() - lastReadAt) ;
+          Homie.getLogger() << "... register " << p_register << " " << (millis() - lastReadAt) << "ms " ;
 #endif
           if (!swSerHeatPump.write(p_register)) { Homie.getLogger() << " failed  "; digitalWrite(rtsPin, LOW); return; }
           delay(5);    
 #ifdef DEBUG_TX
-          if (DebugLevel >= 1)  Homie.getLogger() << " ... value " << (millis() - lastReadAt)  ;
+           Homie.getLogger() << " ... value " << p_value << " " << (millis() - lastReadAt) << "ms " ;
 #endif
           if (!swSerHeatPump.write(p_value)) { Homie.getLogger() << " failed  ";  digitalWrite(rtsPin, LOW); return; }
           delay(5);    
 #ifdef DEBUG_TX
-          if (DebugLevel >= 1)  Homie.getLogger() << "  ... checksum " << checksum << ", " << (millis() - lastReadAt) << "ms" ;
+          Homie.getLogger() << "  ... checksum " << checksum << ", " << (millis() - lastReadAt) << "ms " ;
 #endif
           if (!swSerHeatPump.write(checksum)) { Homie.getLogger() << " failed  " ; digitalWrite(rtsPin, LOW); return; }
+          delay(5);  
 #ifdef DEBUG_TX
-          if (DebugLevel >= 1)  Homie.getLogger() << "rts low " << (millis() - lastReadAt) << endl;
+          Homie.getLogger() << "rts low " << (millis() - lastReadAt) << "ms " << endl;
 #endif
           digitalWrite(rtsPin, LOW);
 #ifdef DEBUG_TX
-          if (DebugLevel >= 1) Homie.getLogger() << "rts low done" << endl;
+          Homie.getLogger() << "rts low done" << endl;
 #endif
           //reset the dirty flag of the just transmitted parameter and pop it off she stack
           popDirtyParam();

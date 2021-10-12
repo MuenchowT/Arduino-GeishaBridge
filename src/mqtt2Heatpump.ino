@@ -35,13 +35,15 @@ if (dirtyCnt >= MAX_DIRTY_MAP) {
 }
 
 #ifdef DEBUG
-  Homie.getLogger() << " push " << p_register  << ", isdirty: " << isParamDirty(geishaMap[p_register]) << endl;
+  Homie.getLogger() << " push " << p_register  << ", isParamDirty?: " << isParamDirty(geishaMap[p_register]) << endl;
 #endif
 
-if ( !isParamDirty(geishaMap[p_register]) ) {
+if (!isParamDirty(geishaMap[p_register]) ) {
 #ifdef DEBUG
-  Homie.getLogger() << " push from cnt " << dirtyCnt << " to " << dirtyCnt + 1 << endl;
+  Homie.getLogger() << " push from cnt " << dirtyCnt << " to " << dirtyCnt + 1 << 
+      ", register: " << p_register << ", geishaMap.register: " << geishaMap[p_register]->pana_register <<  endl;
 #endif
+// ggf. steht 144 in diryMap, aber geishaMap[144] -> 27
   dirtyMap[dirtyCnt++] = p_register;
   geishaMap[p_register]->pana_map |= DIRTY_BIT;
   }
@@ -50,9 +52,9 @@ if ( !isParamDirty(geishaMap[p_register]) ) {
 int getNextDirtyParam() {
 
 #ifdef DEBUG
-  Homie.getLogger() << " dirtyParams: " << endl;
+  Homie.getLogger() << " dirtyArray: " << endl;
 for (int i = dirtyCnt-1; i>=0; i--)
-    Homie.getLogger() << " cnt  " << i << "/" << dirtyMap[i] << endl;
+    Homie.getLogger() << " cnt  " << i << "/" << dirtyMap[i] << ", isdirty: " << isParamDirty(geishaMap[dirtyMap[i]]) << endl;
 #endif  
   
   if (dirtyCnt <= 0) { 
@@ -62,11 +64,27 @@ for (int i = dirtyCnt-1; i>=0; i--)
   return dirtyMap[dirtyCnt-1];
   }
 
-inline void popDirtyParam(void)
+ void popDirtyParam(void)
 {
   // 10111111 =  191 (0xBF)
   // reset the dirty-bit in the bit-map of the last dirty parameter.
-  geishaMap[dirtyCnt--]->pana_map &= 0xBF;
+  int p_register = dirtyMap[dirtyCnt - 1];
+
+  #ifdef DEBUG
+     Homie.getLogger() << " Pop dirtyCnt  " << dirtyCnt << " -> " << dirtyCnt-1 << 
+      ", register " << dirtyMap[dirtyCnt - 1] << ", geishaMap->register: " <<  geishaMap[p_register]->pana_register << 
+      " map: " << geishaMap[p_register]->pana_map << 
+      ", isDirty: " << isParamDirty(geishaMap[p_register]) << endl;
+  #endif
+
+  //int p_register = dirtyMap[--dirtyCnt];
+  geishaMap[dirtyMap[--dirtyCnt]]->pana_map &= 0xBF;
+  
+#ifdef DEBUG
+  Homie.getLogger() << " after pop register " << geishaMap[dirtyMap[dirtyCnt]]->pana_register << ", map: " << geishaMap[dirtyMap[dirtyCnt]]->pana_map  << ", isParamDirty?: " << 
+      isParamDirty(geishaMap[dirtyMap[dirtyCnt]]) << endl;
+#endif
+
 }
 
 
@@ -77,8 +95,7 @@ inline void popDirtyParam(void)
 bool sendNewValueToGeisha(int p_register, uint8_t new_value) {
 
 #ifdef DEBUG
-  if (DebugLevel >= 1) 
-      Homie.getLogger() << " sendnewValue " << p_register << ", newvalue " << new_value << ", oldVal: " << geishaMap[p_register]->pana_value << endl;
+      Homie.getLogger() << " sendNewValue2Geisha " << p_register << ", newvalue " << new_value << ", oldVal: " << geishaMap[p_register]->pana_value << endl;
 #endif
 
 if (geishaMap[p_register]->pana_value == new_value)

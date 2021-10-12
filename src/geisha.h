@@ -19,8 +19,8 @@
 #define TX (1)
 #endif
 
-#define DEBUG           1
-#define DEBUG_TX           1
+//#define DEBUG           1
+//#define DEBUG_TX           1
 #define MAGIC_PACKET    (17)
 
 const int rxPin = D5;  // 14
