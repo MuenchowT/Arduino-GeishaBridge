@@ -1,7 +1,7 @@
 # Arduino-GeishaBridge
 
-Communication to Geisha (Panasonic WH-MDC05f3e5) using a WIFI Arduino esp8266 Controller.
-The Controller will hack the serial Communication between Remote and Heatpump, using this PCB 
+communication to and from Geisha (Panasonic WH-MDC05f3e5) using a WIFI Arduino esp8266 controller.
+The controller will hack the serial communication between remote and reatpump, using this PCB 
 (thanks to all who contributed):
 
 https://github.com/pemue-git/pcb/tree/master/WH-MDC05F3E5_comm
@@ -12,17 +12,22 @@ and
 https://github.com/der-lolo/aquarea
 
 The controller will read the values documented so far from the heatpump and publish these to
-a MQTT Server running somewhere in the network (in my case, it's an openhab installation)
+some MQTT server running in your network (in my case, it's an openhab installation)
 I am using a homie library for esp8266:
 
 https://github.com/homieiot/homie-esp8266
 
-Also, new values from MQTT will be accepted und sent to the geisha heatpump.
-In my case, I use Openhab to display and manipulate the geisha values via MQTT.
+Also, new values from MQTT will be accepted und sent to the heatpump.
+In my case, I use Openhab-Things and Items to display and manipulate the geisha values via MQTT.
 
-Use at own risk. I cannot provide PCBs. These are simple and can be manually soldered (see pics).
+Use at own risk, you need to cut the wire betwenn heatpump and remote. 
+I cannot provide PCBs. These are simple and can manually be soldered (see pics).
 
-I occansionally get crashes, and the timing on the serial bus is merely a guess. I do not have a logic analyzer.
+For me, it works also in case there is an Intesis-Home device installed. My cable setup is 
+Remote -> IntesisHome -> PCB -> Heatpump. Haven't tried it yet without the Intesis Box. 
+
+The timing on the serial bus is merely a guess. I do not have a logic analyzer. Sometimes a serial packet gets dropped, but 
+that doesn't do any bad.
 
 To get started, install the homie-esp8266 libs in your Arduino environment
 and follow the docs, ie. https://homieiot.github.io/homie-esp8266/docs/stable/
