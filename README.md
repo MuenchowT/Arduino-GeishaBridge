@@ -39,7 +39,7 @@ There is a JSON file which contains passwords, hostnames,... in "../src/data/hom
 
 The code is plain C, but because asychronous libs (homie, wifi and mqtt) are involved, it's not always straight forward.
 
-I used a chaepo nodeMcu board (see pic) and installed the following board manager in arduino GUI:
+I used a cheapo nodeMcu board (see pic) and installed the following board manager in arduino GUI:
 ESP8266 Boards -> "NodeMCU 1.0 (ESP 12E Module)"
 
 The provided binaries will obviously only work if you manage to upload a config.json file with your hostnames, passwords.... to your board.
