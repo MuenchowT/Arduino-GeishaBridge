@@ -35,3 +35,5 @@ The code is plain C, but because asychronous libs (homie, wifi and mqtt) are inv
 
 I used a chaepo nodeMcu board (see pic) and installed the following board manager in arduino GUI:
 ESP8266 Boards -> "NodeMCU 1.0 (ESP 12E Module)"
+
+The provided binaries will obviously only work if you manage to upload a config.json file with your hostnames, passwords.... to your board.
