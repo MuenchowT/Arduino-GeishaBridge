@@ -23,5 +23,11 @@ Use at own risk. I cannot provide PCBs. These are simple and can be manually sol
 
 I occansionally get crashes, and the timing on the serial bus is merely a guess. I do not have a logic analyzer.
 
+To configure the device, see the home-docs, ie. https://homieiot.github.io/homie-esp8266/docs/stable/configuration/json-configuration-file/
+There is a JSON file which contains passwords, hostnames,... in "../src/data/homie/config.json". This file can be uploaded to the controller using this tool: https://github.com/esp8266/arduino-esp8266fs-plugin
+
+
+
+
 
 
