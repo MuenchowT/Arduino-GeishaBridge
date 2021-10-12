@@ -1,7 +1,8 @@
 # Arduino-GeishaBridge
 
-Communication to Geisha (Panasonic WH-MDC05f3e5) via WIFI Arduino esp8266 Controller.
-The Controller will hack the serial Communication between Remote and Heatpump, using this PCB:
+Communication to Geisha (Panasonic WH-MDC05f3e5) using a WIFI Arduino esp8266 Controller.
+The Controller will hack the serial Communication between Remote and Heatpump, using this PCB 
+(thanks to all who contributed):
 
 https://github.com/pemue-git/pcb/tree/master/WH-MDC05F3E5_comm
 
