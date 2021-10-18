@@ -5,32 +5,30 @@ The controller will hack the serial communication between remote and heatpump, u
 (thanks to all who contributed): 
 
 https://github.com/pemue-git/pcb/tree/master/WH-MDC05F3E5_comm
-
-The PCB was meant to be connected to an UART USB dongle and further on to some computer running FHEM (see the picture in the documentation of the PCB). 
-The UART-dongle and the FHEM computer will both be replaced by the esp8266 controller.
-Instead of connecting to RXD, TXD and RTS of the dongle, we connect these pins to 
-the controller (D5, D6, D2), see the header file "geisha.h".
-
-Inspired by 
 https://github.com/v-s-c-o-p-e/geisha_aquarea_panasonic_arduino_esp8266_proxy
 and 
 https://github.com/der-lolo/aquarea
 
-The controller will read the values documented so far from the heatpump and publish these to
-some MQTT server running in your network (in my case, it's an openhab installation)
+The PCB was meant to be connected to an UART USB dongle and further on to some computer running FHEM (see the picture in the documentation of the PCB). 
+The UART-dongle and the FHEM computer will both be replaced by the esp8266 controller.
+Instead of connecting to RXD, TXD and RTS of the dongle, we connect these pins to 
+3 pins of the esp8266: D5, D6, D2 (see the header file "geisha.h").
+
+The controller will read the values documented by lolo and others from the heatpump and publish these to
+some MQTT server running in your network (in my case, it's a mosquitto server on a small linux box)
 I am using a homie library for esp8266:
 
 https://github.com/homieiot/homie-esp8266
 
-Also, new values from MQTT will be accepted und sent to the heatpump.
-In my case, I use some Openhab-Things and Items to display and manipulate the geisha values. 
-Openhab sends them to the controller via MQTT.
+Also, new values from MQTT will be accepted by the controller und sent to the heatpump.
+In my case, I use some Openhab-Things and Items to display and manipulate the geisha values (temperatures,
+ON/OFF, Mode, etc). Openhab sends them to the controller via MQTT.
 
-Use at own risk, you need to cut the wire between heatpump and remote. 
-I cannot provide PCBs. These are simple and can manually be soldered on plain cards (see pics).
+Use at own risk, you need to cut one of the wires between heatpump and remote. 
+I cannot provide PCBs. They are simple and can manually be soldered on plain cards (see pics).
 
 For me, it works also in case there is an Intesis-Home device installed. My cable setup is 
-Remote -> IntesisHome -> PCB -> Heatpump. Haven't tried it yet without the Intesis Box. 
+Remote -> IntesisHome -> PCB -> Heatpump. Of course, without the Intesis Box it's even simpler. 
 
 The timing on the serial bus is merely a guess. I do not have a logic analyzer. Sometimes a serial packet gets dropped, but 
 that didn't do any bad up to now.
@@ -46,5 +44,3 @@ The code is plain C, but because asychronous libs (homie, wifi and mqtt) are inv
 
 I used a cheapo nodeMcu board (see pic) and installed the following board manager in arduino GUI:
 ESP8266 Boards -> "NodeMCU 1.0 (ESP 12E Module)"
-
-The provided binaries will obviously only work if you manage to upload a config.json file with your hostnames, passwords.... to your board.
