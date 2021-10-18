@@ -2,9 +2,14 @@
 
 Communication to and from Geisha (Panasonic WH-MDC05f3e5) using a WIFI Arduino esp8266 controller.
 The controller will hack the serial communication between remote and heatpump, using this PCB 
-(thanks to all who contributed):
+(thanks to all who contributed): 
 
 https://github.com/pemue-git/pcb/tree/master/WH-MDC05F3E5_comm
+
+The PCB was meant to be connected to an UART USB dongle and further on to some computer running FHEM (see the picture in the documentation of the PCB). 
+The UART-dongle and the FHEM computer will both be replaced by the esp8266 controller.
+Instead of connecting to RXD, TXD and RTS of the dongle, we connect these pins to 
+the controller (D5, D6, D2), see the header file "geisha.h".
 
 Inspired by 
 https://github.com/v-s-c-o-p-e/geisha_aquarea_panasonic_arduino_esp8266_proxy
