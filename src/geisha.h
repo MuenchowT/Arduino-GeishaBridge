@@ -1,26 +1,23 @@
 #if defined(ESP8266)
 // Beschriftung : Nummer im Code
+// https://randomnerdtutorials.com/esp8266-pinout-reference-gpios/
 #define D1 (5)
 #define D2 (4)
+#define D3 (0)    // FLASH
+#define D4 (2)    // nur output  LED
 #define D5 (14)
 #define D6 (12)
 #define D7 (13)
-#define D8 (15)
-#define RX (3)
-#define TX (1)
-#define D9 (9)
-#define D10 (10)
-#elif defined(ESP32)
-#define D8 (5)
-#define D5 (18)
-#define D7 (23)
-#define D6 (19)
-#define RX (3)
-#define TX (1)
+#define D8 (15)   // hm, hm
+#define RX (3)    // USB
+#define TX (1)    // USB
+#define D9 (11)
+#define D10 (12)
+#define A0  (ADC0)  // Analog
 #endif
 
 //#define DEBUG           1
-//#define DEBUG_TX           1
+#define DEBUG_TX           1
 #define MAGIC_PACKET    (17)
 
 const int rxPin = D5;  // 14
@@ -28,8 +25,8 @@ const int txPin = D6;  // 12
 const int rtsPin D2;   // 4
 const int windPin D1;  // 5
 
-const int relays[4] = { D3, D4, D7, D8 };
-// Analog in: A0
+const int relays[2] = { D4, D7 };
+//const int relays[4] = { D4, D7, D9, D10 };
 
 
 #define MQTT_BIT   (0x01)
@@ -65,8 +62,8 @@ geishaStruct geishaParams[] = {
 { 22, "WW_Temperatur",        0, String(""), 0, (MQTT_BIT | GEISHA_BIT | INT_BIT)},
 { 23, "Kompressor",		      0, String(""), 0, (MQTT_BIT | GEISHA_BIT | INT_BIT)},
 { 24, "letzterFehlercode",    0, String(""), 0, (MQTT_BIT | GEISHA_BIT | INT_BIT)},
-{ 27, "Betriebsart",          0, String(""), 0, (           GEISHA_BIT          )},  
-{ 144,"Betriebsart",          0, String(""), 0, (           GEISHA_BIT          )}, 
+{ 27, "Betriebsart",          0, String(""), 0, (           GEISHA_BIT | INT_BIT )},  
+{ 144,"Betriebsart",          0, String(""), 0, (           GEISHA_BIT | INT_BIT )}, 
 { 29, "Energie Heizen LB",    0, String(""), 0, (           GEISHA_BIT | INT_BIT)},  
 { 30, "EnergieHeizen",       0, String(""), 0, (            GEISHA_BIT | INT_BIT)},  
 { 31, "Energie Kuehlen LB",   0, String(""), 0, (           GEISHA_BIT | INT_BIT)},  
@@ -83,12 +80,6 @@ geishaStruct geishaParams[] = {
 { 136, "Cool_Solltemperatur", 0, String(""), 0, (MQTT_BIT | GEISHA_BIT | SETTABLE_BIT | INT_BIT)},
 { 137, "Tank_Solltemperatur", 0, String(""), 0, (MQTT_BIT | GEISHA_BIT | SETTABLE_BIT | INT_BIT)},
 { 138, "Sollwertverschiebung", 0, String(""), 0, (MQTT_BIT | GEISHA_BIT | SETTABLE_BIT | INT_BIT)}
-/*{ 5, "RefreshInterval",     30, String(""), 0, (MQTT_BIT               | SETTABLE_BIT | INT_BIT)},
-{ 4, "DebugLevel",           1, String(""), 0, (MQTT_BIT               | SETTABLE_BIT | INT_BIT)},
-{ 6, "Relais_1",             1, String(""), 0, (MQTT_BIT               | SETTABLE_BIT | STRING_BIT)},
-{ 7, "Relais_2",             1, String(""), 0, (MQTT_BIT               | SETTABLE_BIT | STRING_BIT)},
-{ 8, "Relais_3",             1, String(""), 0, (MQTT_BIT               | SETTABLE_BIT | STRING_BIT)},
-{ 9, "Relais_4",             1, String(""), 0, (MQTT_BIT               | SETTABLE_BIT | STRING_BIT)}*/
 };
 
 const int MAX_PARAM_NUMBER  = 144;
@@ -96,32 +87,8 @@ const int PARAMS_ARRAY_SIZE = (sizeof(geishaParams)/sizeof(geishaParams[0]));
 
 #define ON_BIT (0x01)
 #define ECO_BIT (0x040)
-
 #define MAX_DIRTY_MAP 6
 
-/*
-typedef struct {
-//  uint8_t   b_register;
-uint8_t   b_value;
-String    b_name;
-	} geisha_translation
-   ;
-
-
-	geisha_translation g_translate[] = {
-		{   0x02, "heizen" },
-		{   0x04, "kuehlen" },
-//		{   0x08, "tank" },
-		{   0x10, "tank" },
-    {   0x20, "auto" },
-    {   0x40, "eco" },
-		{   0x02, "heizen" },
-		{   0x01, "ON" },
-		{   0x00, "OFF" }
-		};
-
-	const int TRANS_ARRAY_SIZE = (sizeof(g_translate)/sizeof(g_translate[0]));
-*/
 /*
 129 = Reset Error(Taste an der FB)
 130 Einstellen der niedrigen Außentemperatur
@@ -143,6 +110,3 @@ Heißwasser(Tanktemperatur) auf 50 eingestellt
 
    * 
    */
-
-geishaStruct * getParamStructFromRegister(unsigned int i_register, uint8_t requested_bitmap);
-geishaStruct * getParamStructFromName(String i_name, uint8_t requested_bitmap);

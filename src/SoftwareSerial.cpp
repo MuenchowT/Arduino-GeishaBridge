@@ -19,6 +19,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 */
 
+/*
+ *    This Library is modified to work with the Geisha Serial protocol!!!!
+ *    
+ * */
+
 #include <Arduino.h>
 
 // The Arduino standard GPIO routines are not enough,
@@ -113,24 +118,12 @@ void SoftwareSerial::begin(long speed) {
   // Use getCycleCount() loop to get as exact timing as possible
 m_bitTime = F_CPU/speed;
 
-deb_out(String(F_CPU) + ", m_bt: " + String(m_bitTime) );
-
   // By default enable interrupt during tx only for low speed
 m_intTxEnabled = speed < 9600;
 
 if (!m_rxEnabled)
 	enableRx(true);
 	}
-
-
-void SoftwareSerial::setDirty(uint8_t p_value, uint8_t p_register) { 
-  m_register = p_register; 
-  m_Dirty = true;
-  m_sent = 0;
-  m_value = p_value;
-  m_checksum = (170 + m_register + m_value) & 255;
-  deb_out(String(" dirty reg= ") + String( m_register) + String( " value=") + String( m_value));
-  };
 
 
 long SoftwareSerial::baudRate() {
@@ -200,8 +193,8 @@ if (!m_txValid) return 0;
 
 //  b = ~b;
   
+  // Disable interrupts in order to get a clean transmit
 if (!m_intTxEnabled)
-	// Disable interrupts in order to get a clean transmit
 	cli();
 
 unsigned long wait = m_bitTime;
@@ -239,25 +232,6 @@ digitalWrite(m_txPin,HIGH);
 WAIT;
 WAIT;
 
-	/*
-  if (m_txEnableValid) digitalWrite(m_txEnablePin, HIGH);
-  unsigned long wait = m_bitTime;
-  digitalWrite(m_txPin, HIGH);
-  unsigned long start = ESP.getCycleCount();
-  // Start bit;
-  digitalWrite(m_txPin, LOW);
-  WAIT;
-  for (int i = 0; i < 8; i++) {
-    digitalWrite(m_txPin, (b & 1) ? HIGH : LOW);
-    WAIT;
-    b >>= 1;
-  }
-  // Stop bit
-  digitalWrite(m_txPin, HIGH);
-  WAIT;
-
-  if (m_txEnableValid) digitalWrite(m_txEnablePin, LOW);
-  */
 if (!m_intTxEnabled)
 	sei();
 return 1;

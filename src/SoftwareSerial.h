@@ -59,8 +59,6 @@ class SoftwareSerial : public Stream {
 		void enableRx(bool on);
   // One wire control
 		void enableTx(bool on);
-    void setDirty(uint8_t p_value, uint8_t p_register);
-    bool isDirty(void) {  return m_Dirty; };
 
 		void rxRead();
 
@@ -87,16 +85,9 @@ class SoftwareSerial : public Stream {
 		unsigned int m_inPos, m_outPos;
 		int m_buffSize;
 		uint8_t *m_buffer;
-    uint8_t m_value;
-    uint8_t m_sent;
-    bool m_Dirty = false;
-   uint8_t m_checksum; 
-   uint8_t  prevPackage;
-   uint8_t trySend ;
-   uint8_t m_register;
-   Stream * m_streamRef = &Serial;
+//   Stream * m_streamRef = &Serial;
     
-  void deb_out(String s) { m_streamRef->println(s.c_str()); }
+//void deb_out(String s) { m_streamRef->println(s.c_str()); }
    
 	};
 

@@ -6,14 +6,13 @@ const char *  DATATYPE_MAP(geishaStruct * x)  {
       return "string";
    }
 
-
 inline uint8_t getModeBitsFromString(String modeString)
 {
 if (modeString == "heizen")   return 2;
 if (modeString == "kuehlen")  return 4;
 if (modeString == "tank")     return  16;
 if (modeString == "auto")     return 32;
-if (modeString == "eco")     return 64;
+//if (modeString == "eco")     return 64;
 }
 
 
@@ -22,8 +21,9 @@ if (p_value & 2) return "heizen";
 if (p_value & 4) return "kuehlen";
 if (p_value & 16) return "tank";
 if (p_value & 32) return "auto"; 
-if (p_value & 64) return "eco"; 
-return "N/A";
+//if (p_value & 64) return "eco"; 
+if (p_value & 1) return "an";
+return "aus";
   }
 
 
@@ -93,7 +93,6 @@ for (int i = dirtyCnt-1; i>=0; i--)
  * The register number will be pushed onto the "dirty"-array
  */
 bool sendNewValueToGeisha(int p_register, uint8_t new_value) {
-
 #ifdef DEBUG
       Homie.getLogger() << " sendNewValue2Geisha " << p_register << ", newvalue " << new_value << ", oldVal: " << geishaMap[p_register]->pana_value << endl;
 #endif
@@ -103,6 +102,7 @@ if (geishaMap[p_register]->pana_value == new_value)
 
 geishaMap[p_register]->pana_value = new_value;
 pushParamDirty(p_register);
+
 return true;
 }
 
@@ -142,19 +142,9 @@ return &geishaParams[0];
 int getAktStromverbrauch(void)
 {
   int p_register = 0;
-  /*
-  0x02, "heizen" },
-  0x04, "kuehlen" },
-  0x10, "tank" },
-  */
-  
- if (geishaMap[27]->pana_value & 0x02 ) // heizen
-    p_register = 30;
- if (geishaMap[27]->pana_value & 0x04 ) // kühlen
-    p_register = 32;
- if (geishaMap[27]->pana_value & 0x10 ) // tank
-    p_register = 34;
-
- return (p_register == 0 ? 0 : (geishaMap[p_register]->pana_value * 256 + geishaMap[p_register-1]->pana_value));
+  int sb = (geishaMap[30]->pana_value * 256 + geishaMap[29]->pana_value) +  // heizen
+    (geishaMap[32]->pana_value * 256 + geishaMap[31]->pana_value) +    // kühlen
+    (geishaMap[34]->pana_value * 256 + geishaMap[33]->pana_value);    // tank
+ return sb; 
  
 }
