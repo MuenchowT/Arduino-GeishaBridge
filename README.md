@@ -32,8 +32,8 @@ Remote -> IntesisHome -> PCB -> Heatpump. Of course, without the Intesis Box it'
 The timing on the serial bus is merely a guess. I do not have a logic analyzer. Sometimes a serial packet gets dropped, but 
 that didn't do any bad up to now.
 
-To get started, install the homie-esp8266 libs in your Arduino environment
-and follow the docs, ie. https://homieiot.github.io/homie-esp8266/docs/stable/
+To get started, install the board manager for esp8266 (add http://arduino.esp8266.com/stable/package_esp8266com_index.json to file->preferences->additional boards)
+Install the homie-esp8266 libs in your Arduino environment and follow the docs, ie. https://homieiot.github.io/homie-esp8266/docs/stable/
 
 The device can be configured like so: https://homieiot.github.io/homie-esp8266/docs/stable/configuration/json-configuration-file/
 
