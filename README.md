@@ -9,25 +9,24 @@ https://github.com/v-s-c-o-p-e/geisha_aquarea_panasonic_arduino_esp8266_proxy
 and 
 https://github.com/der-lolo/aquarea
 
-The PCB was meant to be connected to an UART USB dongle and further on to some computer running FHEM (see the picture in the documentation of the PCB). 
-The UART-dongle and the FHEM computer will both be replaced by the esp8266 controller.
-Instead of connecting to RXD, TXD and RTS of the dongle, we connect these pins to 
-3 pins of the esp8266: D5, D6, D2 (see the header file "geisha.h").
+Startpoint is this schema: https://github.com/pemue-git/pcb/tree/master/WH-MDC05F3E5_comm
+The right side (RXD, TXD, H-input) will be connected to the esp8266, Pins D5, D6, D2 - see the header file "geisha.h".
+The connections on the left side go to the Heatpump controller (FB=controller, WP=heatpump).
 
-The controller will read the values documented by lolo and others from the heatpump and publish these to
+The esp will read the values documented by lolo and others from the heatpump and publish these to
 some MQTT server running in your network (in my case, it's a mosquitto server on a small linux box)
 I am using a homie library for esp8266:
 
 https://github.com/homieiot/homie-esp8266
 
-Also, new values from MQTT will be accepted by the controller und sent to the heatpump.
+Also, new values from MQTT will be accepted by the esp und sent to the heatpump.
 In my case, I use some Openhab-Things and Items to display and manipulate the geisha values (temperatures,
 ON/OFF, Mode, etc). Openhab sends them to the controller via MQTT.
 
 Use at own risk, you need to cut one of the wires between heatpump and remote. 
 I cannot provide PCBs. They are simple and can manually be soldered on plain cards (see pics).
 
-For me, it works also in case there is an Intesis-Home device installed. My cable setup is 
+For me, it works also in case there is an (additional, not needed) Intesis-Home device installed. My cable setup is 
 Remote -> IntesisHome -> PCB -> Heatpump. Of course, without the Intesis Box it's even simpler. 
 
 The timing on the serial bus is merely a guess. I do not have a logic analyzer. Sometimes a serial packet gets dropped, but 
